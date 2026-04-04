@@ -20,6 +20,8 @@
 </button>
 
     <canvas id="radarChart" width="400" height="400"></canvas>
+        <div id="annualReport" style="margin-top: 30px;"></div>
+
     </div>
     
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -67,10 +69,56 @@ ticks: {
     }
 });
 </script>
-<script>
-document.getElementById('generateReportBtn').addEventListener('click', function() {
-  alert("AI 正在生成 2026 年度報告...\n\n（下一步我們會讓它讀取 JSON 並自動生成內容）");
+<script>document.getElementById('generateReportBtn').addEventListener('click', async function () {
+
+  // 1. 讀取 JSON
+  const response = await fetch('/data/2026/雷達圖資料.json');
+  const data = await response.json();
+
+  // 2. 找最高分與最低分
+  const highest = Object.entries(data)
+    .sort((a, b) => b[1] - a[1])[0];
+
+  const lowest = Object.entries(data)
+    .sort((a, b) => a[1] - b[1])[0];
+
+  // 3. 自動生成摘要
+  const summary = `
+    2026 年度整體風險狀況穩定，其中表現最佳的是「${highest[0]}」，分數為 ${highest[1]}。
+    需要優先改善的項目為「${lowest[0]}」，分數為 ${lowest[1]}。
+  `;
+
+  // 4. 自動生成建議
+  const suggestion = `
+    建議針對「${lowest[0]}」制定改善計畫，並持續維持「${highest[0]}」的良好表現。
+  `;
+
+  // 5. 插入年度報告卡片
+  document.getElementById('annualReport').innerHTML = `
+    <div style="
+      padding:20px;
+      border:1px solid #ccc;
+      border-radius:10px;
+      background:#fafafa;
+      line-height:1.8;
+    ">
+      <h2>📘 2026 年度家庭財務報告</h2>
+      <h3>📌 摘要</h3>
+      <p>${summary}</p>
+
+      <h3>⚠️ 風險重點</h3>
+      <p>最高分：${highest[0]}（${highest[1]}）<br>
+         最低分：${lowest[0]}（${lowest[1]}）</p>
+
+      <h3>💡 建議</h3>
+      <p>${suggestion}</p>
+
+      <h3>📊 數據來源</h3>
+      <pre>${JSON.stringify(data, null, 2)}</pre>
+    </div>
+  `;
 });
+
 </script>
 
 
