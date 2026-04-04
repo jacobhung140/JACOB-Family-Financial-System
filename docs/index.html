@@ -15,6 +15,10 @@
     <div style="flex:1; padding:30px;">
         <h1> Jacob Family Dashboard </h1>
         <p>這裡是主內容區，我們接下來會一步一步加入圖表與資料。</p>
+        <button id="generateReportBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
+  🤖 AI 自動生成年度報告
+</button>
+
     <canvas id="radarChart" width="400" height="400"></canvas>
     </div>
     
@@ -52,6 +56,11 @@ new Chart(ctx, {
             }
         }
     }
+});
+</script>
+<script>
+document.getElementById('generateReportBtn').addEventListener('click', function() {
+  alert("AI 正在生成 2026 年度報告...\n\n（下一步我們會讓它讀取 JSON 並自動生成內容）");
 });
 </script>
 
