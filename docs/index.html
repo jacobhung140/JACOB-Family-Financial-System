@@ -76,10 +76,10 @@ ticks: {
   const data = await response.json();
 
   // 2. 找最高分與最低分
-  const highest = Object.entries(data)
+  const highest = Object.entries(data.分數)
     .sort((a, b) => b[1] - a[1])[0];
 
-  const lowest = Object.entries(data)
+  const lowest = Object.entries(data.分數)
     .sort((a, b) => a[1] - b[1])[0];
 
   // 3. 自動生成摘要
